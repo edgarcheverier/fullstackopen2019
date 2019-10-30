@@ -1,0 +1,12 @@
+note over browser:
+User submits new note clicking save in the browser.
+The JS logic prevents the default behaviour of the submit action
+and sends the data to the server adding the content-type, then
+re-render the content in the template pushing the new
+note to the notes array and calling the method
+redrawNotes
+end note
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+server-->browser: Response with 201 Created
