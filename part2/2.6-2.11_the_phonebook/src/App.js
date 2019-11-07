@@ -5,10 +5,18 @@ function App() {
   const [persons, setPersons] = useState([{name: 'Edgar Cheverier'}]);
   const [newName, setNewName] = useState('');
 
+  const verifyName = () =>
+    persons.some(person => person.name.toLowerCase() === newName.toLowerCase());
+
   const handleSubmitPerson = (event) => {
     event.preventDefault();
-    setPersons(persons.concat({name: newName}));
-    setNewName('');
+
+    if (verifyName()) {
+      alert(`${newName} is already added to the phonebook`);
+    } else {
+      setPersons(persons.concat({name: newName}));
+      setNewName('');
+    }
   };
 
   const displayNumbers = () =>
