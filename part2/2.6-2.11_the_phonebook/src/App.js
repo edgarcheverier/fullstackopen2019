@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
 
 function App() {
   const initialPersonsState = [
@@ -37,38 +40,19 @@ function App() {
     }
   };
 
-  const displayNumbers = () => {
-    if (newFilter) {
-      if (filteredPersons.length) {
-        return filteredPersons.map(filteredPerson =>
-          <li key={filteredPerson.name}>{filteredPerson.name} {filteredPerson.number}</li>)
-      }
-      return <li>no results</li>
-    }
-    return persons.map(person => <li key={person.name}>{person.name} {person.number}</li>)
-  }
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <input value={newFilter} onChange={handleFilter()} />
-      </div>
-      <form onSubmit={handleSubmitPerson}>
-        <div>
-          name: <input value={newName} onChange={e => setNewName(e.target.value)} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={e => setNewNumber(e.target.value)} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter newFilter={newFilter} handleFilter={handleFilter}/>
+      <h3>Add a new</h3>
+      <PersonForm
+        handleSubmitPerson={handleSubmitPerson}
+        newName={newName}
+        setNewName={setNewName}
+        newNumber={newNumber}
+        setNewNumber={setNewNumber}/>
       <h2>Numbers</h2>
-      <ul>
-        {displayNumbers()}
-      </ul>
+      <Persons newFilter={newFilter} filteredPersons={filteredPersons} persons={persons}/>
     </div>
   );
 }
