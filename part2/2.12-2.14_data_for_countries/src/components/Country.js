@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Country = ({name}) =>
-  <li>{name}</li>
+const Country = ({name, handleSearchQuery}) =>
+  <li>{name} <button onClick={() => handleSearchQuery(name)}>Show</button></li>
 
 export default Country;

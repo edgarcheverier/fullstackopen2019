@@ -6,8 +6,7 @@ function App() {
   const [countries, setCountries] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleSearchQuery = (e) => {
-    const value = e.target.value;
+  const handleSearchQuery = (value) => {
     setSearchQuery(value)
     if (value) {
       fetch(`https://restcountries.eu/rest/v2/name/${value}`)
@@ -21,12 +20,13 @@ function App() {
         setCountries(res)
       })
     }
+    setCountries([])
   };
 
   return (
     <div className="App">
       <Find searchQuery={searchQuery} handleSearchQuery={handleSearchQuery}/>
-      <Countries countries={countries} />
+      <Countries countries={countries} handleSearchQuery={handleSearchQuery}/>
     </div>
   );
 }

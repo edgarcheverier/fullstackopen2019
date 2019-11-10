@@ -2,8 +2,7 @@ import React from 'react';
 import Country from './Country';
 import DetailCountry from './DetailCountry';
 
-const Countries = ({countries}) => {
-  console.log(countries)
+const Countries = ({countries, handleSearchQuery}) => {
   if (countries.length > 10) {
     return <h3>Too many matches, specify another filter</h3>
   }
@@ -13,7 +12,8 @@ const Countries = ({countries}) => {
   }
 
   const displayCountries = () =>
-    countries.map(country => <Country key={country.name} name={country.name} />)
+    countries.map(country =>
+      <Country key={country.name} name={country.name} handleSearchQuery={handleSearchQuery} />)
 
   return (
     <ul>
