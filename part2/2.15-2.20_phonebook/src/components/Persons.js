@@ -6,11 +6,11 @@ const Persons = ({newFilter, filteredPersons, persons}) => {
     if (newFilter) {
       if (filteredPersons.length) {
         return filteredPersons.map(filteredPerson =>
-          <Person key={filteredPerson.name} person={filteredPerson} />)
+          <Person key={filteredPerson.id} person={filteredPerson} />)
       }
       return <li>no results</li>
     }
-    return persons.map(person => <Person key={person.name} person={person} />)
+    return persons.map(person => <Person key={person.id} person={person} />)
   }
 
   return (
