@@ -45,9 +45,21 @@ function App() {
         .create(newPerson)
         .then(data => {
           setPersons(persons.concat(data));
+          setNewName('');
+          setNewNumber('');
         });
-      setNewName('');
-      setNewNumber('');
+    }
+  };
+
+  const handleDeletePerson = (name, id) => {
+    const message = `Delete ${name}?`
+    const result = window.confirm(message);
+    if (result) {
+      personsService
+        .deleteOne(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        });
     }
   };
 
@@ -63,7 +75,11 @@ function App() {
         newNumber={newNumber}
         setNewNumber={setNewNumber}/>
       <h2>Numbers</h2>
-      <Persons newFilter={newFilter} filteredPersons={filteredPersons} persons={persons}/>
+      <Persons
+        newFilter={newFilter}
+        filteredPersons={filteredPersons}
+        persons={persons}
+        handleDeletePerson={handleDeletePerson}/>
     </div>
   );
 }
