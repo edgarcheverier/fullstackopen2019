@@ -27,14 +27,37 @@ function App() {
     setFilteredPersons(newFilteredPersons);
   };
 
+  const verifyNameAndNumber = () => {
+    return persons.some(person => {
+      return person.name.toLowerCase() === newName.toLowerCase() &&
+      person.number === newNumber
+    })
+  }
+
   const verifyName = () =>
     persons.some(person => person.name.toLowerCase() === newName.toLowerCase());
 
   const handleSubmitPerson = (event) => {
     event.preventDefault();
 
-    if (verifyName()) {
+    if (verifyNameAndNumber()) {
       alert(`${newName} is already added to the phonebook`);
+    } else if(verifyName()) {
+      const message = `Would you like to replace the phone number of ${newName}?`;
+      const result = window.confirm(message);
+      if (result) {
+        const person = persons.find(person => {
+          return person.name.toLowerCase() === newName.toLowerCase()
+        })
+
+        personsService
+          .update(person.id, {name: person.name, number: newNumber})
+            .then((data) => {
+              setPersons(persons.map(person => person.id === data.id ? data : person))
+              setNewName('');
+              setNewNumber('');
+            })
+      }
     } else {
       const newPerson = {
         name: newName,
