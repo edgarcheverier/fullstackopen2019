@@ -12,6 +12,7 @@ function App() {
   const [newNumber, setNewNumber] = useState('');
   const [newFilter, setNewFilter] = useState('');
   const [newMessage, setNewMessage] = useState(null)
+  const [newError, setNewError] = useState(false);
 
   useEffect(() => {
     personsService
@@ -63,6 +64,15 @@ function App() {
                 setNewMessage(null)
               }, 3000)
             })
+            .catch(() => {
+              setNewError(true)
+              setNewMessage(`Information of ${newName} has already been removed from the server`);
+              setPersons(persons.filter(ele => ele.id !== person.id))
+              setTimeout(() => {
+                setNewMessage(null)
+                setNewError(false)
+              }, 3000)
+            })
       }
     } else {
       const newPerson = {
@@ -80,7 +90,15 @@ function App() {
           setTimeout(() =>{
             setNewMessage(null)
           }, 3000)
-        });
+        })
+        .catch(() => {
+          setNewError(true)
+          setNewMessage(`An error occurred trying to save the contact ${newName}`);
+          setTimeout(() => {
+            setNewMessage(null)
+            setNewError(false)
+          }, 3000)
+        })
     }
   };
 
@@ -99,7 +117,7 @@ function App() {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={newMessage}/>
+      <Notification newMessage={newMessage} newError={newError}/>
       <Filter newFilter={newFilter} handleFilter={handleFilter}/>
       <h3>Add a new</h3>
       <PersonForm
